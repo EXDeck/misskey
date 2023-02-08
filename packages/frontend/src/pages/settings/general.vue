@@ -55,6 +55,7 @@
 				<MkSwitch v-model="squareAvatars">{{ i18n.ts.squareAvatars }}</MkSwitch>
 				<MkSwitch v-model="useSystemFont">{{ i18n.ts.useSystemFont }}</MkSwitch>
 				<MkSwitch v-model="disableDrawer">{{ i18n.ts.disableDrawer }}</MkSwitch>
+				<MkSwitch v-model="useCustomInstanceTicker">インスタンス情報を左寄せにする / Use custom instance ticker</MkSwitch>
 			</div>
 			<div>
 				<MkRadios v-model="emojiStyle">
@@ -121,6 +122,7 @@ import { unisonReload } from '@/scripts/unison-reload';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { miLocalStorage } from '@/local-storage';
+import { defaults } from 'sanitize-html';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
@@ -135,6 +137,8 @@ async function reloadAsk() {
 
 	unisonReload();
 }
+
+const useCustomInstanceTicker = computed(defaultStore.makeGetterSetter('useCustomInstanceTicker'));
 
 const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
 const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter('serverDisconnectedBehavior'));
@@ -179,6 +183,7 @@ watch(useSystemFont, () => {
 });
 
 watch([
+	useCustomInstanceTicker, 
 	lang,
 	fontSize,
 	useSystemFont,

@@ -38,7 +38,8 @@
 		<MkAvatar v-once :class="$style.avatar" :user="appearNote.user" link preview/>
 		<div :class="$style.main">
 			<MkNoteHeader :class="$style.header" :note="appearNote" :mini="true"/>
-			<MkInstanceTicker v-if="showTicker" :class="$style.ticker" :instance="appearNote.user.instance"/>
+			<MkCustomInstanceTicker v-if="showTicker && useCustomTicker" :class="$style.customTicker" :instance="appearNote.user.instance"/>
+			<MkInstanceTicker v-else-if="showTicker" :class="$style.ticker" :instance="appearNote.user.instance"/>
 			<div style="container-type: inline-size;">
 				<p v-if="appearNote.cw != null" :class="$style.cw">
 					<Mfm v-if="appearNote.cw != ''" style="margin-right: 8px;" :text="appearNote.cw" :author="appearNote.user" :i="$i"/>
@@ -129,6 +130,8 @@ import MkPoll from '@/components/MkPoll.vue';
 import MkUsersTooltip from '@/components/MkUsersTooltip.vue';
 import MkUrlPreview from '@/components/MkUrlPreview.vue';
 import MkInstanceTicker from '@/components/MkInstanceTicker.vue';
+//add ↓↓
+import MkCustomInstanceTicker from './MkCustomInstanceTicker.vue';
 import { pleaseLogin } from '@/scripts/please-login';
 import { focusPrev, focusNext } from '@/scripts/focus';
 import { checkWordMute } from '@/scripts/check-word-mute';
@@ -192,6 +195,11 @@ const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
 const canRenote = computed(() => ['public', 'home'].includes(appearNote.visibility) || appearNote.userId === $i.id);
+
+//add
+const useCustomTicker = defaultStore.state.useCustomInstanceTicker;
+
+console.log(useCustomTicker);
 
 const keymap = {
 	'r': () => reply(true),
@@ -480,6 +488,16 @@ function readPromo() {
 .main {
 	flex: 1;
 	min-width: 0;
+}
+
+.customTicker {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 100% !important;
+  border-radius: unset !important;
+  overflow: hidden !important;
 }
 
 .cw {
