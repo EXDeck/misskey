@@ -36,7 +36,7 @@ export const notePostInterruptors: NotePostInterruptor[] = [];
 export const defaultStore = markRaw(new Storage('base', {
 	useCustomInstanceTicker: {
 		where: 'deviceAccount',
-		default: false,
+		default: true,
 	},
 	tutorial: {
 		where: 'account',
