@@ -6,6 +6,7 @@ import MkMention from '@/components/MkMention.vue';
 import MkEmoji from '@/components/global/MkEmoji.vue';
 import MkCustomEmoji from '@/components/global/MkCustomEmoji.vue';
 import { concat } from '@/scripts/array';
+import MkFormula from '@/components/MkFormula.vue';
 import MkCode from '@/components/MkCode.vue';
 import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
@@ -339,11 +340,21 @@ export default defineComponent({
 				}
 
 				case 'mathInline': {
-					return [h('code', token.props.formula)];
+					return [h(MkFormula, {
+						key: Math.random(),
+						formula: token.props.formula,
+						block: false,
+					})];
+					// return [h('code', token.props.formula)];
 				}
 
 				case 'mathBlock': {
-					return [h('code', token.props.formula)];
+					return [h(MkFormula, {
+						key: Math.random(),
+						formula: token.props.formula,
+						block: true,
+					})];
+					// return [h('code', token.props.formula)];
 				}
 
 				case 'search': {
